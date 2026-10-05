@@ -97,3 +97,11 @@ Open http://localhost:3000, add items, check out, then check the `orders` table 
 - `SUPABASE_SERVICE_ROLE_KEY` is server-only. Never prefix it with `NEXT_PUBLIC_`.
 - If email fails, the order is still saved and `orders.email_sent` stays `false` (check server logs).
 - Rows in `orders` / `order_items` are readable only by their owner via RLS.
+
+## Lesson 3: cart sync across web and mobile
+The cart now lives in the Supabase `cart_items` table (see `supabase/cart_items.sql`), keyed to the signed-in user with row-level security.
+The website and the mobile app read and write the same rows, and Supabase Realtime pushes changes to whichever one is open.
+
+- Mobile app (Expo): https://github.com/Zaamaar/ember-oak-mobile
+- Guests keep a local cart. It merges into their account cart when they sign in.
+- Mailgun runs on a sandbox domain, so receipts only reach authorized recipients.
